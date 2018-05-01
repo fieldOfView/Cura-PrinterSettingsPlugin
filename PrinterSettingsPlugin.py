@@ -60,10 +60,12 @@ class PrinterSettingsPlugin(Extension):
 
             for setting in machine_settings_category.children:
                 if setting.key not in self._hidden_settings:
-                    category_dict["children"][setting.key] = setting.serialize_to_dict()
-                    #setting._parent = printer_settings_category
-                    #setting._updateAncestors()
-                    #printer_settings_category._children.append(setting)
+                    setting_dict = setting.serialize_to_dict()
+                    # Some settings values come out of serialize_to_dict with a = prepended, which does not deserialize nicely
+                    for key in ["value", "enabled", "minimum_value", "maximum_value", "minimum_value_warning", "maximum_value_warning"]:
+                        if key in setting_dict and setting_dict[key][0] == "=":
+                            setting_dict[key] = setting_dict[key][1:]
+                    category_dict["children"][setting.key] = setting_dict
 
             printer_settings_category.deserialize(category_dict)
             container.addDefinition(printer_settings_category)
