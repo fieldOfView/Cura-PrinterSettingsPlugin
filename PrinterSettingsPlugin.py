@@ -33,7 +33,7 @@ class PrinterSettingsPlugin(Extension):
             "machine_show_variants", "machine_start_gcode", "machine_end_gcode", "material_guid", "material_print_temp_prepend", "material_bed_temp_prepend",
             "machine_width", "machine_depth", "machine_shape", "machine_height", "machine_center_is_zero", "machine_extruder_count", "machine_disallowed_areas",
             "nozzle_disallowed_areas", "machine_head_polygon", "machine_head_with_fans_polygon", "gantry_height", "machine_nozzle_id",
-            "extruders_enabled_count", "machine_gcode_flavor", "machine_heated_bed"
+            "extruders_enabled_count", "machine_gcode_flavor", "machine_heated_bed", "machine_buildplate_type"
         ]
 
         self._application.engineCreatedSignal.connect(self._onEngineCreated)
