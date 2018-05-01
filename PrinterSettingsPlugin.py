@@ -2,6 +2,7 @@
 # The PrinterSettingsPlugin is released under the terms of the AGPLv3 or higher.
 
 import os, json, re
+from collections import OrderedDict
 
 from UM.Extension import Extension
 from UM.Application import Application
@@ -56,8 +57,7 @@ class PrinterSettingsPlugin(Extension):
             printer_settings_category = SettingDefinition(self._category_key, container, None, self._i18n_catalog)
 
             category_dict = self._category_dict
-            category_dict["children"] = {}
-
+            category_dict["children"] = OrderedDict()
 
             for setting in machine_settings_category.children:
                 if setting.key not in self._hidden_settings:
