@@ -66,6 +66,12 @@ class PrinterSettingsPlugin(Extension):
                     for key in ["value", "enabled", "minimum_value", "maximum_value", "minimum_value_warning", "maximum_value_warning"]:
                         if key in setting_dict and setting_dict[key][0] == "=":
                             setting_dict[key] = setting_dict[key][1:]
+                    # Boolean values are deserialised as string
+                    for (key, value) in setting_dict.items():
+                        if value == "True":
+                            setting_dict[key] = True
+                        if value == "False":
+                            setting_dict[key] = False
                     category_dict["children"][setting.key] = setting_dict
 
             printer_settings_category.deserialize(category_dict)
