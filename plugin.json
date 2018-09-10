@@ -1,7 +1,7 @@
 {
     "name": "Printer Settings",
     "author": "fieldOfView",
-    "version": "3.2.2",
+    "version": "3.5",
     "description": "Adds printer settings to the sidebar (USE AT YOUR OWN RISK)",
-    "api": 4
+    "api": 5
 }
