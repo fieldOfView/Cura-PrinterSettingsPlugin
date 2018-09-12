@@ -10,7 +10,6 @@ from UM.Settings.SettingDefinition import SettingDefinition
 from UM.Settings.DefinitionContainer import DefinitionContainer
 from UM.Settings.ContainerRegistry import ContainerRegistry
 from UM.Logger import Logger
-from UM.Preferences import Preferences
 
 from UM.i18n import i18nCatalog
 i18n_catalog = i18nCatalog("PrinterSettingsPlugin")
@@ -81,7 +80,7 @@ class PrinterSettingsPlugin(Extension):
 
     def _onEngineCreated(self):
         # Fix preferences
-        preferences = Preferences.getInstance()
+        preferences = self._application.getPreferences()
         visible_settings = preferences.getValue("general/visible_settings")
         if not visible_settings:
             # Wait until the default visible settings have been set
