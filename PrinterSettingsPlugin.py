@@ -10,7 +10,6 @@ from UM.Settings.SettingDefinition import SettingDefinition
 from UM.Settings.DefinitionContainer import DefinitionContainer
 from UM.Settings.ContainerRegistry import ContainerRegistry
 from UM.Logger import Logger
-from UM.Preferences import Preferences
 
 from UM.i18n import i18nCatalog
 i18n_catalog = i18nCatalog("PrinterSettingsPlugin")
@@ -36,7 +35,8 @@ class PrinterSettingsPlugin(Extension):
             "extruders_enabled_count", "machine_gcode_flavor", "machine_heated_bed", "machine_buildplate_type"
         ]
 
-        self._application.engineCreatedSignal.connect(self._onEngineCreated)
+        self._application.engineCreatedSignal.connect(self._fixSettingVisibility)
+        self._application.getPreferences().preferenceChanged.connect(self._onPreferencesChanged)
         ContainerRegistry.getInstance().containerLoadComplete.connect(self._onContainerLoadComplete)
 
 
@@ -79,9 +79,13 @@ class PrinterSettingsPlugin(Extension):
 
             container._updateRelations(printer_settings_category)
 
-    def _onEngineCreated(self):
+    def _onPreferencesChanged(self, preference):
+        if preference == "general/visible_settings":
+            self._fixSettingVisibility()
+
+    def _fixSettingVisibility(self):
         # Fix preferences
-        preferences = Preferences.getInstance()
+        preferences = self._application.getPreferences()
         visible_settings = preferences.getValue("general/visible_settings")
         if not visible_settings:
             # Wait until the default visible settings have been set
